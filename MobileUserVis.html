@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base href="_w_b77fb651/" />
+    <script type="text/javascript">
+(function() {
+  // http://stackoverflow.com/questions/10964966/detect-ie-version-in-javascript
+  function isIE () {
+    var myNav = navigator.userAgent.toLowerCase();
+    return (myNav.indexOf('msie') != -1) ? parseInt(myNav.split('msie')[1]) : false;
+  }
+  
+  if (isIE() === 8 || isIE() === 9){
+    // Set an absolute base href.
+    baseURL = document.URL;
+    baseURL = baseURL.substring(0, baseURL.lastIndexOf('/'));
+    document.getElementsByTagName('base')[0].setAttribute('href', baseURL + '/_w_b77fb651/');
+  }
+})();
+</script>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>  <script type="application/shiny-singletons"></script>  <script type="application/html-dependencies">json2[2014.02.04];jquery[1.12.4];babel-polyfill[6.7.2];shiny[0.14.1];htmlwidgets[0.7];leaflet[0.7.3];leafletfix[1.0.0];leaflet-binding[1.0.1];bootstrap[3.3.7]</script><script src="shared/json2-min.js"></script>
+<script src="shared/jquery.min.js"></script>
+<script src="shared/babel-polyfill.min.js"></script>
+<link href="shared/shiny.css" rel="stylesheet" />
+<script src="shared/shiny.min.js"></script>
+<script src="htmlwidgets-0.7/htmlwidgets.js"></script>
+<link href="leaflet-0.7.3/leaflet.css" rel="stylesheet" />
+<script src="leaflet-0.7.3/leaflet.js"></script>
+<link href="leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="leaflet-binding-1.0.1/leaflet.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="shared/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<script src="shared/bootstrap/js/bootstrap.min.js"></script>
+<script src="shared/bootstrap/shim/html5shiv.min.js"></script>
+<script src="shared/bootstrap/shim/respond.min.js"></script>
+
+<script src="__assets__/sockjs-0.3.min.js"></script>
+<script src="__assets__/rstudio-connect.js"></script>
+<link rel="stylesheet" type="text/css" href="__assets__/rstudio-connect.css"/>
+
+</head>
+
+<body>
+<script type="text/javascript" src="/__static__/components/iframe-resizer/js/iframeResizer.contentWindow.min.js"></script>
+<script type="text/javascript" src="/__static__/frontend/scripts/shinyapps.js"></script>
+<script type="text/javascript" src="/__static__/frontend/scripts/shinyapps.frame.content.js"></script>
+
+  <div class="col-sm-8">
+    <h1>23rd November, 2016</h1>
+    <h2>Geo-Spatial distribution of Mobile Phone Users in China</h2>
+    <h5>Data Source: The data used for the application is available at Kaggle Website www.kaggle.com/c/talkingdata-mobile-user-demographics . Only a subset of the data is used.</h5>
+  </div>
+  <div id="my_map" style="width:1900px; height:1200px; " class="leaflet html-widget html-widget-output"></div>
+  <div style="right:10px;bottom:10px;position:absolute;cursor:inherit;">
+    <h3>Select the Brand</h3>
+    <div class="form-group shiny-input-container">
+      <div class="checkbox">
+        <label>
+          <input id="xiaomi" type="checkbox" checked="checked"/>
+          <span>Xiaomi</span>
+        </label>
+      </div>
+    </div>
+    <div class="form-group shiny-input-container">
+      <div class="checkbox">
+        <label>
+          <input id="samsung" type="checkbox" checked="checked"/>
+          <span>Samsung</span>
+        </label>
+      </div>
+    </div>
+    <div class="form-group shiny-input-container">
+      <div class="checkbox">
+        <label>
+          <input id="huawei" type="checkbox" checked="checked"/>
+          <span>Huawei</span>
+        </label>
+      </div>
+    </div>
+    <h3>Select the Gender</h3>
+    <div class="form-group shiny-input-container">
+      <div class="checkbox">
+        <label>
+          <input id="m" type="checkbox" checked="checked"/>
+          <span>Male</span>
+        </label>
+      </div>
+    </div>
+    <div class="form-group shiny-input-container">
+      <div class="checkbox">
+        <label>
+          <input id="f" type="checkbox" checked="checked"/>
+          <span>Female</span>
+        </label>
+      </div>
+    </div>
+  </div>
+  <div style="top:10px;right:10px;position:absolute;cursor:inherit;">
+    <h1>Total Users :</h1>
+    <h2>
+      <div id="users" class="shiny-text-output"></div>
+    </h2>
+  </div>
+</body>
+
+</html>
