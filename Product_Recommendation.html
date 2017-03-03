@@ -256,6 +256,8 @@ cart_txns[cart_txns$product_id ==<span class="st"> </span>p, ] %&gt;%<span class
 latest_trend &lt;-<span class="st"> </span>cart_txns[date ==<span class="st"> &quot;2017-03-31&quot;</span>, 
                           <span class="kw">c</span>(<span class="st">&quot;product_id&quot;</span>, <span class="st">&quot;trend_robust&quot;</span>)][<span class="kw">order</span>(trend_robust, <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)]</code></pre></div>
 <p>Now lets print the top 6 trending products</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="st">&quot;Top Recommended Products&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;Top Recommended Products&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">result &lt;-<span class="st"> </span><span class="kw">apply</span>(<span class="kw">head</span>(latest_trend), 
                 <span class="dt">MARGIN =</span> <span class="dv">1</span>, 
                 function(x) <span class="kw">cat</span>(<span class="st">&quot;Product &quot;</span>, 
@@ -269,7 +271,7 @@ latest_trend &lt;-<span class="st"> </span>cart_txns[date ==<span class="st"> &q
 ## Product 57 (Trend Score 0.222346)
 ## Product 62 (Trend Score 0.2099849)
 ## Product 5 (Trend Score 0.2077364)</code></pre>
-<p>That’s it! These are the top 6 trending products which can be displayed on the website real time.</p>
+<p>That’s it! These are the top 6 recommended products which are currently trending. These products can now be displayed on the website in real time if we take the unit of measurement to hour or event minutes instead of days.</p>
 <p>02-Mar-2017</p>
 <p>Acknowledgements: 1. <a href="http://blog.yhat.com/posts/trending-products-recommender-engine.html">A Simple Trending Products Recommendation Engine in Python</a></p>
 <script>
