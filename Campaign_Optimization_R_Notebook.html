@@ -349,81 +349,21 @@ mode</code></pre></div>
 ## Rows Read: 263, Total Rows Processed: 500263, Total Chunk Time: 0.123 seconds</code></pre>
 <p>Lets validate if all the NAs are replaced. AS we can see from the table below the MissingObs is 0 for all columns.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">summary1 &lt;-<span class="st"> </span><span class="kw">rxSummary</span>(formula, CM_AD0, <span class="dt">byTerm =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<pre><code>## Rows Read: 50000, Total Rows Processed: 50000, Total Chunk Time: 1.293 seconds
-## Rows Read: 50000, Total Rows Processed: 100000, Total Chunk Time: 1.219 seconds
-## Rows Read: 50000, Total Rows Processed: 150000, Total Chunk Time: 1.172 seconds
-## Rows Read: 50000, Total Rows Processed: 200000, Total Chunk Time: 1.175 seconds
-## Rows Read: 50000, Total Rows Processed: 250000, Total Chunk Time: 1.174 seconds
-## Rows Read: 50000, Total Rows Processed: 300000, Total Chunk Time: 1.182 seconds
-## Rows Read: 50000, Total Rows Processed: 350000, Total Chunk Time: 1.167 seconds
-## Rows Read: 50000, Total Rows Processed: 400000, Total Chunk Time: 1.181 seconds
-## Rows Read: 50000, Total Rows Processed: 450000, Total Chunk Time: 1.171 seconds
-## Rows Read: 50000, Total Rows Processed: 500000, Total Chunk Time: 1.172 seconds
-## Rows Read: 263, Total Rows Processed: 500263, Total Chunk Time: 0.056 seconds 
-## Computation time: 12.027 seconds.</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">summary1$sDataFrame</code></pre></div>
-<pre><code>##                    Name         Mean       StdDev   Min   Max ValidObs
-## 1                   Age           NA           NA    NA    NA        0
-## 2  Annual_Income_Bucket           NA           NA    NA    NA        0
-## 3          Credit_Score           NA           NA    NA    NA        0
-## 4               Country           NA           NA    NA    NA        0
-## 5                 State           NA           NA    NA    NA        0
-## 6      No_Of_Dependents 6.633191e-01 8.515377e-01 0e+00 3e+00   500263
-## 7     Highest_Education           NA           NA    NA    NA        0
-## 8             Ethnicity           NA           NA    NA    NA        0
-## 9        No_Of_Children 1.324991e+00 1.194604e+00 0e+00 3e+00   500263
-## 10       Household_Size 1.662006e+00 8.520396e-01 1e+00 4e+00   500263
-## 11               Gender           NA           NA    NA    NA        0
-## 12       Marital_Status           NA           NA    NA    NA        0
-## 13              Channel           NA           NA    NA    NA        0
-## 14          Time_Of_Day           NA           NA    NA    NA        0
-## 15      Conversion_Flag 1.986755e-02 1.395452e-01 0e+00 1e+00   500263
-## 16          Day_Of_Week 4.034348e+00 2.209061e+00 1e+00 7e+00   500263
-## 17              Product           NA           NA    NA    NA        0
-## 18             Category           NA           NA    NA    NA        0
-## 19                 Term 1.917266e+01 6.355634e+00 1e+01 3e+01   500263
-## 20 No_Of_People_Covered 2.922623e+00 1.441396e+00 1e+00 5e+00   500263
-## 21              Premium 1.378474e+03 5.237600e+02 7e+02 2e+03   500263
-## 22    Payment_Frequency           NA           NA    NA    NA        0
-## 23  Amt_On_Maturity_Bin           NA           NA    NA    NA        0
-## 24         Sub_Category           NA           NA    NA    NA        0
-## 25     Campaign_Drivers           NA           NA    NA    NA        0
-## 26        Campaign_Name           NA           NA    NA    NA        0
-## 27      Call_For_Action 6.828208e-01 4.653783e-01 0e+00 1e+00   500263
-## 28    Focused_Geography           NA           NA    NA    NA        0
-## 29   Tenure_Of_Campaign 1.320739e+00 4.667612e-01 1e+00 2e+00   500263
-## 30      Net_Amt_Insured 1.500101e+05 3.996246e+04 1e+05 2e+05   500263
-##    MissingObs
-## 1           0
-## 2           0
-## 3           0
-## 4           0
-## 5           0
-## 6           0
-## 7           0
-## 8           0
-## 9           0
-## 10          0
-## 11          0
-## 12          0
-## 13          0
-## 14          0
-## 15          0
-## 16          0
-## 17          0
-## 18          0
-## 19          0
-## 20          0
-## 21          0
-## 22          0
-## 23          0
-## 24          0
-## 25          0
-## 26          0
-## 27          0
-## 28          0
-## 29          0
-## 30          0</code></pre>
+<pre><code>## Rows Read: 50000, Total Rows Processed: 50000, Total Chunk Time: 1.273 seconds
+## Rows Read: 50000, Total Rows Processed: 100000, Total Chunk Time: 1.271 seconds
+## Rows Read: 50000, Total Rows Processed: 150000, Total Chunk Time: 1.258 seconds
+## Rows Read: 50000, Total Rows Processed: 200000, Total Chunk Time: 1.257 seconds
+## Rows Read: 50000, Total Rows Processed: 250000, Total Chunk Time: 1.297 seconds
+## Rows Read: 50000, Total Rows Processed: 300000, Total Chunk Time: 1.330 seconds
+## Rows Read: 50000, Total Rows Processed: 350000, Total Chunk Time: 1.344 seconds
+## Rows Read: 50000, Total Rows Processed: 400000, Total Chunk Time: 1.309 seconds
+## Rows Read: 50000, Total Rows Processed: 450000, Total Chunk Time: 1.334 seconds
+## Rows Read: 50000, Total Rows Processed: 500000, Total Chunk Time: 1.269 seconds
+## Rows Read: 263, Total Rows Processed: 500263, Total Chunk Time: 0.061 seconds 
+## Computation time: 13.069 seconds.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
+summary1$sDataFrame$MissingObs %&gt;%<span class="st"> </span><span class="kw">sum</span>()</code></pre></div>
+<pre><code>## [1] 0</code></pre>
 <p>We can now drop the 2 intermediate tables.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Drop intermediate tables.
 <span class="co">#rxSqlServerDropTable(table = &quot;Campaign_Product&quot;, connectionString = connection_string)</span>
