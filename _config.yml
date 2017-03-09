@@ -1,5 +1,17 @@
-name: Aditya's Website
-markdown: kramdown
-theme: jekyll-theme-cayman
+# Setup
+title:        Aditya's Website
+tagline:      Data Science and Machine Learning Workspace
+baseurl:      ""
+paginate:     1
+
+# About/contact
+author:
+  name:       svaditya
+  url:        
+
+# Gems
 gems:
-  - jekyll-feed
+  - jekyll-paginate
+
+#Others
+markdown: kramdown
