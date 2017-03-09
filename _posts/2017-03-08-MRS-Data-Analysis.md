@@ -202,9 +202,7 @@ We will now look at some summaries on this xdf file using `rxSummary` and `rxHis
 
 1.  How is the user activity spread across the week?
 
-``` r
-rxHistogram(~ day, merged.xdf)
-```
+
 
 
 
@@ -212,9 +210,7 @@ Surprisingly, the user activity is pretty uniform except for a minor bump on Tue
 
 1.  How is the user activity spread across the day?
 
-``` r
-rxHistogram(~ F(hr), merged_new.xdf)
-```
+
 
  The user activity understandably is at its peak at 10AM and 9PM while at its lowest during the early hours of the day.
 
@@ -562,19 +558,7 @@ The low p-value indicates that the relationship is very strong and maximum activ
 
 Here Gender is a factor while Age is continuous variable. We can perform [t test](https://en.wikipedia.org/wiki/Student%27s_t-test) using the base R;s `t.test` function. But to perform this test we need to import the data from xdf to data frame object as RevoScaleR does not offer t-test function yet. We will write a helper function for that.
 
-``` r
-test <- function(var) {
-        df <- rxImport(allfeat.xdf, varsToKeep = c(var, "gender"))
-        print(t.test(as.formula(paste(var, "~", "gender")), data = df))
-        library(ggplot2)
-        df %>% ggplot(aes_string(x = "gender", y = var)) + 
-                geom_boxplot() + 
-                my_theme() + 
-                labs(title = paste("gender Vs", var))
-}
 
-test("age")
-```
 
     ## 
     ##  Welch Two Sample t-test
