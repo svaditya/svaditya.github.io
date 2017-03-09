@@ -601,8 +601,8 @@ In the following post we will start with this tidy data to build and evaluate va
 *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
 
 var disqus_config = function () {
-this.page.url = 'https://svaditya.github.io/blog/MRS_Data_Analysis';  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = 'blog/MRS_Data_Analysis'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+this.page.url = 'https://svaditya.github.io/2017/03/08/MRS-Data-Analysis';  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = '2017/03/08/MRS-Data-Analysis'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
 };
 
 (function() { // DON'T EDIT BELOW THIS LINE
