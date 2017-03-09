@@ -206,7 +206,7 @@ We will now look at some summaries on this xdf file using `rxSummary` and `rxHis
 rxHistogram(~ day, merged.xdf)
 ```
 
-![](Figs/unnamed-chunk-8-1.png)
+
 
 Surprisingly, the user activity is pretty uniform except for a minor bump on Tuesday and Thursday. The activity is the lowest during the weekends.
 
@@ -216,7 +216,7 @@ Surprisingly, the user activity is pretty uniform except for a minor bump on Tue
 rxHistogram(~ F(hr), merged_new.xdf)
 ```
 
-![](Figs/unnamed-chunk-9-1.png) The user activity understandably is at its peak at 10AM and 9PM while at its lowest during the early hours of the day.
+ The user activity understandably is at its peak at 10AM and 9PM while at its lowest during the early hours of the day.
 
 We will now move to the `app_events.csv` to extact the relevant features.
 
@@ -588,7 +588,7 @@ test("age")
     ## mean in group F mean in group M 
     ##        32.63179        32.01633
 
-![](Figs/unnamed-chunk-25-1.png) Again the p-value is quite low indicating age can be a good indicator to predict gender.
+ Again the p-value is quite low indicating age can be a good indicator to predict gender.
 
 Next Step
 ---------
