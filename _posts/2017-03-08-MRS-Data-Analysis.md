@@ -1,6 +1,6 @@
 ---
-title: "How to manipulate Big Data using Microsoft R Server?"
 layout: post
+title: "How to manipulate Big Data using Microsoft R Server?"
 date: 2017-03-08
 ---
 
