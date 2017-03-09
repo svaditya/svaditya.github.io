@@ -1,13 +1,13 @@
 # Setup
 title:        Aditya's Website
-tagline:      Data Science and Machine Learning Workspace
+tagline:      
 baseurl:      ""
 paginate:     1
 
 # About/contact
 author:
   name:       svaditya
-  url:        
+  url:        https://svaditya.github.io
 
 # Gems
 gems:
