@@ -308,4 +308,4 @@ for the ROC curve.
                     data = allpredictions.xdf)
     plot(rocOut)
 
-![](Figs/unnamed-chunk-10-1.png)
+![](((site.url}}/assets/unnamed-chunk-10-1.png)
