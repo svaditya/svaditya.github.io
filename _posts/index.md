@@ -1,3 +1,11 @@
+---
+layout: post
+title: "How to manipulate Big Data using Microsoft R Server?"
+comments: TRUE
+date: 2017-03-08
+---
+
+
 Posts
 -----
 
