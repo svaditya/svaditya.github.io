@@ -4,7 +4,7 @@ layout: page
 ---
 
 {% for category in site.categories %}
-  <li><a name="{{ category | first }}"><h3>{{ category | first }}</h3></a>
+  <a name="{{ category | first }}"><h2>{{ category | first }}</h2></a>
     <ul>
 	{% for post in site.posts %}
 		<div class="row">
@@ -20,5 +20,4 @@ layout: page
 		</div>
 		{% endfor %}
 </ul>
-  </li>
 {% endfor %}
