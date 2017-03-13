@@ -12,6 +12,9 @@ author:
 # Gems
 gems:
   - jekyll-paginate
+  
+#Categories
+categories: ['Python', 'R']
 
 #Others
 markdown: kramdown
