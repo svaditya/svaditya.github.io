@@ -369,7 +369,6 @@ models.append(('SVM', SVC()))
 
 ```python
 
-{% highlight ruby linenos %}
 # Building and evaluating models
 
 # evaluate each model in turn
@@ -382,7 +381,6 @@ for name, model in models:
     names.append(name)
     msg = "%s: Avg. Accuracy = %f (SD = %f)" % (name, cv_results.mean(), cv_results.std())
     print(msg)
-{% endhighlight %}
 ```
 
     LR: Avg. Accuracy = 0.951818 (SD = 0.065813)
