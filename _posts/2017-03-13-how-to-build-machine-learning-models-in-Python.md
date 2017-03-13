@@ -255,7 +255,7 @@ plt.show()
 ```
 
 
-![png](output_19_0.png)
+![png](/output_19_0.png)
 
 
 We can aswell see the histograme of these variables.
