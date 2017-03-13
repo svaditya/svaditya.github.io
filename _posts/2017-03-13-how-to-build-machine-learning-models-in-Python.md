@@ -1,11 +1,9 @@
-
 ---
 title: "How to build machine learning models in Python?"
-categoty: Python
+category: Python
 layout: post
 date: "13-Mar-2017"
 ---
-
 
 
 Hello All, This is my first machine learning experiment in Python and I am really excited to explore this path. In this post I will build a simple machine learning model using the popular [iris](https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data) data set availabel in the csv format.
