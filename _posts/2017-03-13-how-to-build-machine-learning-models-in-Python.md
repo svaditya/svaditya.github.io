@@ -255,7 +255,7 @@ plt.show()
 ```
 
 
-![png](/_posts/2017-03-13-how-to-build-machine-learning-models-in-Python/output_19_0.png)
+
 
 
 We can aswell see the histograme of these variables. 
