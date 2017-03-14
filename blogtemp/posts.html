@@ -6,7 +6,7 @@ layout: page
 {% for category in site.categories %}
   <a name="{{ category | first }}"><h2>{{ category | first }}</h2></a>
     <ul>
-	{% for posts in categories %}
+	{% for posts in category %}
 		{% for post in posts %}
 
 			<div class="row">
