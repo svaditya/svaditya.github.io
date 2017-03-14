@@ -11,9 +11,9 @@ output:
 
 This blog post is continuation my earlier
 [post](https://svaditya.github.io/blog/MRS_Data_Analysis.html) where we
-performed data cleaning and feature engineering on the \[Kaggle data
-set\]((<https://www.kaggle.com/c/talkingdata-mobile-user-demographics>).
-We also studied the relationship between the label (gender in this case)
+performed data cleaning and feature engineering on the [Kaggle data
+set](https://www.kaggle.com/c/talkingdata-mobile-user-demographics). We
+also studied the relationship between the label (gender in this case)
 and other covariates.
 
 Overview
@@ -315,7 +315,7 @@ for the ROC curve.
                     data = allpredictions.xdf)
     plot(rocOut)
 
-![](Figs/unnamed-chunk-10-1.png)
+![](images/2017-03-10-MRS-Data-Analysis2/unnamed-chunk-10-1.png)
 
 As per the area under the ROC curve we can select either the logistic
 regression or the decision forest as the best model. Please note that

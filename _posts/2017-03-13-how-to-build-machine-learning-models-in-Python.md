@@ -254,7 +254,7 @@ plt.show()
 ```
 
 
-![png](output_18_0.png)
+![png](/images/2017-03-13-how-to-build-machine-learning-models-in-Python/output_18_0.png)
 
 
 We can aswell see the histograme of these variables.
@@ -266,7 +266,7 @@ plt.show()
 ```
 
 
-![png](output_20_0.png)
+![png](/images/2017-03-13-how-to-build-machine-learning-models-in-Python/output_20_0.png)
 
 
 sepal-show and sepal-width appear to be close to normally distributed.
@@ -280,7 +280,7 @@ plt.show()
 ```
 
 
-![png](output_22_0.png)
+![png](/images/2017-03-13-how-to-build-machine-learning-models-in-Python/output_22_0.png)
 
 
 This plot suggests few variables are highyl correlated while others are not.
@@ -405,7 +405,7 @@ plt.show()
 ```
 
 
-![png](output_33_0.png)
+![png](/images/2017-03-13-how-to-build-machine-learning-models-in-Python/output_33_0.png)
 
 
 ## Making Predictions
