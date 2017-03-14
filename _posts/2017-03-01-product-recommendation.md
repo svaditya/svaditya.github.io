@@ -115,7 +115,7 @@ observatio period.
             labs(title = sprintf("Cart trend of product %s", p)) + 
             my_theme() + geom_smooth()
 
-![](/2017-03-01-product-recommendation/unnamed-chunk-2-1.png)
+![](/images/2017-03-01-product-recommendation/unnamed-chunk-2-1.png)
 
 Smoothing the trend
 -------------------
@@ -178,7 +178,7 @@ version looks compared to the original.
             my_theme() + 
             geom_line(aes(y = smooth, col = "smooth"), size = 1)
 
-![](/2017-03-01-product-recommendation/unnamed-chunk-5-1.png)
+![](/images/2017-03-01-product-recommendation/unnamed-chunk-5-1.png)
 
 The smoothing function did a pretty good job at flattening the daily
 noise. Finally, we will normalize the `carts` and `smooth` variables.
@@ -204,7 +204,7 @@ maximum.
             my_theme() + 
             geom_line(aes(y = smooth_norm, col = "smooth_norm"), size = 1)
 
-![](/2017-03-01-product-recommendation/unnamed-chunk-6-1.png)
+![](/images/2017-03-01-product-recommendation/unnamed-chunk-6-1.png)
 
 In the graph above, observe the change in the y axis scale. We basically
 centered the values at 0 and scaled them to be between -1 and 1.
@@ -243,7 +243,7 @@ the smoothed and normalized carts.
             geom_line(aes(y = smooth_norm, col = "smooth_norm"), size = 1) + 
             geom_line(aes(y = trend, col = "trend"), size = 1)
 
-![](/2017-03-01-product-recommendation/unnamed-chunk-7-1.png)
+![](/images/2017-03-01-product-recommendation/unnamed-chunk-7-1.png)
 
 Instead of looking only at the trend value on the current day, we can
 aswell take a weighted average of trend over past `n` days to factor in
@@ -268,7 +268,7 @@ trend. For simplicity we will consider `n = 1` and weights as
             #geom_line(aes(y = trend, col = "trend"), size = 1) + 
             geom_line(aes(y = trend_robust, col = "trend_robust"), size = 1)
 
-![](/2017-03-01-product-recommendation/unnamed-chunk-8-1.png)
+![](/images/2017-03-01-product-recommendation/unnamed-chunk-8-1.png)
 
     # Now we will select the trend_robust for every product on the day of interest, 31-Mar in this case
     latest_trend <- cart_txns[date == "2017-03-31", 
