@@ -315,7 +315,7 @@ for the ROC curve.
                     data = allpredictions.xdf)
     plot(rocOut)
 
-![](images/2017-03-10-MRS-Data-Analysis2/unnamed-chunk-10-1.png)
+![](/images/2017-03-10-MRS-Data-Analysis2/unnamed-chunk-10-1.png)
 
 As per the area under the ROC curve we can select either the logistic
 regression or the decision forest as the best model. Please note that

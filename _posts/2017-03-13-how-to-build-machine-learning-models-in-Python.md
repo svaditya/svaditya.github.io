@@ -283,19 +283,18 @@ plt.show()
 ![png](/images/2017-03-13-how-to-build-machine-learning-models-in-Python/output_22_0.png)
 
 
-This plot suggests few variables are highyl correlated while others are not.
+This plot suggests that few variables are highyl correlated while others are not.
 
 ### Building simple models
 
 Lets build a simple machine learning model to predict the class of the flower from the measurements.
+Before we get started, I will enumerate the steps to carry out
 
-Before we get started, I will enumerate the steps to pefrom
+   i. Split the datset in to 2 parts. One is the train data set and the other is the test dataset. 
 
-i. Split the datset in to 2 parts. One is the train data set and the other is the test dataset. 
+   ii. Build our models on the train dataset.
 
-ii. Build our models on the train dataset.
-
-iii. Basis one of the chosen metrics like accuracy or [AUC (area under the curve)](https://en.wikipedia.org/wiki/Receiver_operating_characteristic#Area_under_the_curve) we will choose the best performing model. 
+   iii. Basis one of the chosen metrics like accuracy or [AUC (area under the curve)](https://en.wikipedia.org/wiki/Receiver_operating_characteristic#Area_under_the_curve) we will choose the best performing model. 
 
 #### Step i : Splitting the data
 
@@ -405,7 +404,7 @@ plt.show()
 ```
 
 
-![png](/images/2017-03-13-how-to-build-machine-learning-models-in-Python/output_33_0.png)
+![png](/images/2017-03-13-how-to-build-machine-learning-models-in-Python/output_32_0.png)
 
 
 ## Making Predictions
