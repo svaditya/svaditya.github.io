@@ -6,8 +6,10 @@ layout: page
 {% for category in site.categories %}
   <a name="{{ category | first }}"><h2>{{ category | first }}</h2></a>
     <ul>
-	{% for post in site.posts %}
-		<div class="row">
+	{% for post in category %}
+		{% for post in posts %}
+
+			<div class="row">
 				<div class="small-12 columns">
 				<sub>{{ post.date | date: '%B %d, %Y' }}</sub>
 
@@ -18,6 +20,7 @@ layout: page
 
 				</div>
 		</div>
+		{% endfor %}
 		{% endfor %}
 </ul>
 {% endfor %}

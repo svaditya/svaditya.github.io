@@ -6,7 +6,7 @@ date: "13-Mar-2017"
 ---
 
 
-Hello All, This is my first machine learning experiment in Python and I am really excited to explore this path. In this post I will build a simple machine learning model using the popular [iris](https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data) data set availabel in the csv format.
+Hello All, This is my first machine learning experiment in Python and I am really excited to explore this path. In this post I will build a simple machine learning model using the popular [iris](https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data) data set available in the csv format.
 
 ### Loading libraries
 
@@ -244,7 +244,6 @@ print(dataset.groupby('class').size()) # Equivalent to table() in R
 All the record are equally distributed across the classes.
 
 d. Visualizing the data
-
 Lets quickly visualize the box plots of the columns to better understand their distribution. 
 
 
@@ -255,10 +254,10 @@ plt.show()
 ```
 
 
-![png](/images/2017-03-13-how-to-build-machine-learning-models-in-Python/output_19_0.png)
+![png](output_18_0.png)
 
 
-We can aswell see the histograme of these variables. 
+We can aswell see the histograme of these variables.
 
 
 ```python
@@ -267,7 +266,7 @@ plt.show()
 ```
 
 
-![png](/images/2017-03-13-how-to-build-machine-learning-models-in-Python/output_21_0.png)
+![png](output_20_0.png)
 
 
 sepal-show and sepal-width appear to be close to normally distributed.
@@ -281,7 +280,7 @@ plt.show()
 ```
 
 
-![png](/images/2017-03-13-how-to-build-machine-learning-models-in-Python/output_24_0.png)
+![png](output_22_0.png)
 
 
 This plot suggests few variables are highyl correlated while others are not.
@@ -368,7 +367,6 @@ models.append(('SVM', SVC()))
 
 
 ```python
-
 # Building and evaluating models
 
 # evaluate each model in turn
@@ -386,16 +384,14 @@ for name, model in models:
     LR: Avg. Accuracy = 0.951818 (SD = 0.065813)
     LDA: Avg. Accuracy = 0.970909 (SD = 0.063089)
     KNN: Avg. Accuracy = 0.960000 (SD = 0.091652)
-    CART: Avg. Accuracy = 0.931818 (SD = 0.125128)
+    CART: Avg. Accuracy = 0.941818 (SD = 0.126177)
     NB: Avg. Accuracy = 0.961818 (SD = 0.062032)
     SVM: Avg. Accuracy = 0.960909 (SD = 0.091095)
     
 
 ### Step III. Choosing the best model 
 
-We can observe that the best performing model is the LDA baed on the accuracy. We will use this model to against the tet data set.
-
-We can visually compare the model performance using the boxplots as well.
+We can observe that the best performing model is the LDA baed on the accuracy. We will use this model to against the tet data set. We can visually compare the model performance using the boxplots as well.
 
 
 ```python
@@ -409,7 +405,7 @@ plt.show()
 ```
 
 
-![png](/images/2017-03-13-how-to-build-machine-learning-models-in-Python/output_38_0.png)
+![png](output_33_0.png)
 
 
 ## Making Predictions
@@ -441,9 +437,7 @@ print(classification_report(Y_test, predictions))
     
     
 
-We can very easily get all the metircs like accuracy, precision, confusion matrix, f1 scores etc  using simple function in the sci-kit learn package.
-
-The final accuracy we got is close to 98%. This is also consistant with the summary of the cross validation report. Hence we can be some what assured that this model is stable and we can expect similar results when used against outside data.
+We can very easily get all the metircs like accuracy, precision, confusion matrix, f1 scores etc  using simple function in the sci-kit learn package. The final accuracy we got is close to 98%. This is also consistant with the summary of the cross validation report. Hence we can be some what assured that this model is stable and we can expect similar results when used against outside data.
 
 ## Conclusion
 
