@@ -3,7 +3,7 @@ partial: all
 layout: page
 ---
 
-{% for category in site.categories %}
+{% for category in site.categories reversed %}
   <a name="{{ category | first }}"><h2>{{ category | first }}</h2></a>
     <ul>
 	{% for posts in category %}
