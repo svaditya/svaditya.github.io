@@ -9,12 +9,13 @@ output:
     preserve_yaml: true
 ---
 
-Overview
---------
-
 In this post I will demonstrate how to manipulate big data files using
 [Mircosoft R
 server](https://msdn.microsoft.com/en-us/microsoft-r/rserver) or MRS.
+
+Overview
+--------
+
 The prerequisites to reproduce the analysis in this post will be an
 installation of MRS or MRC ([Microsoft R
 Client](https://msdn.microsoft.com/en-us/microsoft-r/r-client)) and the
