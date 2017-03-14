@@ -9,18 +9,19 @@ output:
     preserve_yaml: true
 ---
 
-Overview
---------
-
 This blog post is continuation my earlier
 [post](https://svaditya.github.io/blog/MRS_Data_Analysis.html) where we
 performed data cleaning and feature engineering on the \[Kaggle data
 set\]((<https://www.kaggle.com/c/talkingdata-mobile-user-demographics>).
-We also studies the relationship between the label (gender in this case)
-and other covariates. In this post we will start of from where we left
-and play around with various machine learning functions from the
-powerful RevoScaleR package. Just to refresh lets quickly take a look at
-our data set.
+We also studied the relationship between the label (gender in this case)
+and other covariates.
+
+Overview
+--------
+
+In this post we will start of from where we left and play around with
+various machine learning functions from the powerful RevoScaleR package.
+Just to refresh the memory lets quickly take a look at our data set.
 
     allfeatnew.xdf <- "allfeatnew.xdf"
     # Convert gender to numeric binary values
@@ -314,7 +315,7 @@ for the ROC curve.
                     data = allpredictions.xdf)
     plot(rocOut)
 
-![](/images/2017-03-10-MRS-Data-Analysis2/unnamed-chunk-10-1.png)
+![](Figs/unnamed-chunk-10-1.png)
 
 As per the area under the ROC curve we can select either the logistic
 regression or the decision forest as the best model. Please note that

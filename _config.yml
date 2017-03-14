@@ -14,7 +14,7 @@ gems:
   - jekyll-paginate
   
 #Categories
-categories: ['Python', 'R']
+categories: ['R', 'Python']
 
 #Others
 markdown: kramdown
