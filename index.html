@@ -55,9 +55,18 @@ title: Aditya's Website
 <a href="https://plus.google.com/116478918718993856497" class="fa fa-google"></a>
 <a href="https://www.linkedin.com/in/aditya-sv-0b463b17/" class="fa fa-linkedin"></a>
 
-				
+<br/><br/>
 
+<h2>Latest from the blog</h2>
 
-    		</div><!-- /.blurb -->
+{% for post in site.posts limit:1 %}
+<div class="row">
+				<div class="small-12 columns">
+				<sub>{{ post.date | date: '%B %d, %Y' }}</sub>
+
+				<a href="{{ post.url }}"><h3>{{ post.title }}</h3></a>
+{% endfor %}
+
+</div><!-- /.blurb -->
 	
 		
