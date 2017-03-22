@@ -1,7 +1,7 @@
 ---
 title: "How to manipulate Big Data using Microsoft R Server?"
 author: "__Aditya__"
-date:   "10-Mar-2017"
+date:   "08-Mar-2017"
 layout: post
 category: R
 output:
