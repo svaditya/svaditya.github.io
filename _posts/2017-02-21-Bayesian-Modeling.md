@@ -12,24 +12,188 @@ output:
 Hello All, In this post I will demonstrate how to model a simple
 customer behaviour using Bayesian statistics. First we will simulate
 hypothetical data based on few distributions and see how modeling helps
-us to simulate the future behaviour of the customers. We will also look
+us to identify the undelying relationship between the data and variable
+of interest.
 
 Introduction
 ------------
 
-For this post, lets assume an imaginary museum which runs ona
-subscription renewal model. Let's also assume that currently there are
-5000 members and the musuem captures some customer specific data like
-gender, interest in photography and sculptures (this informations is
-primarily captured during the registration process) and some behaviour
-data like digital content consumption and months since last visit to the
-museum.
+For this post, lets assume an imaginary gym which runs on a monthly
+subscription renewal model. It could be quarterly or annual as well.
+Let's also assume that currently there are 500 members and the gym
+captures some customer specific data like gender, interest in fat
+burning and muscle building (this informations is primarily captured
+during the registration process) and some behaviour data like digital
+content consumption (sent through emails) and days since last visit to
+the gym.
 
 First, we will simulate this data assuming certain underlying
-distributions and we will use the `rstan` package to indetify the
-parameters of those distributions.
+distributions.
 
-Congiguring the `rstan` for modeling the data.
+Simulating the Data
+-------------------
+
+We will simulate a data set with 500 customers drawn from a population
+of gym members. We will define various columns as below.
+
+-   
+    *X*<sub>1</sub>
+     `gender` : Approximately 60% are females.
+
+-   
+    *X*<sub>2</sub>
+     `fat butning` : 50% expressed interest for fat burning.
+
+-   
+    *X*<sub>3</sub>
+     `musclebuilding` : 30% expressed interest for muscle building.
+
+-   
+    *X*<sub>4</sub>
+     `digital_content` : The average number of digital contents consumed
+    by the members is 0.5 and the sample follows a poisson distribution.
+
+-   
+    *X*<sub>5</sub>
+     `days_since` : The average length since last visit is 3 days and
+    the sample follows a poisson distribution.
+
+{% highlight ruby linenos %}
+
+    N <- 500
+    # we assume 500 members
+
+    female <- rbinom(N,1,0.6) 
+    # simulate 60% of female
+
+    fatburning <- rbinom(N,1,0.5) 
+    # simulate 50% of customers who expressed interest for fatburning
+
+    musclebuilding <- rbinom(N,1,0.3) 
+    # simulate 30% of customers who expressed interest for muscle building
+     
+    digital_content <- rpois(N,0.5) 
+    # simulate digital content
+
+    days_since <- rpois(N,3) 
+    # simulate months since last visit, with a max of 30
+    days_since[days_since>30] <- 30
+
+{% endhighlight %}
+
+Simulating renewal behavior
+---------------------------
+
+The next step is to simulate the renewal behaviour. Let denote that `Y`
+(`renewal`) equals 1 if the member decides to renew, 0 otherwise.
+
+We assume the following probit model for Y given X. (This can be any
+abstract relationship. We are assuming this for simplicity.)
+
+*P*(*Y* = 1|*X*<sub>1</sub>, *X*<sub>2</sub>, *X*<sub>3</sub>, *X*<sub>4</sub>, *X*<sub>5</sub>)=*Φ*(*β*<sub>0</sub> + *β*<sub>1</sub>*X*<sub>1</sub> + *β*<sub>2</sub>*X*<sub>2</sub> + *β*<sub>3</sub>*X*<sub>3</sub> + *β*<sub>4</sub>*X*<sub>4</sub> + *β*<sub>5</sub>*X*<sub>5</sub>)
+ where
+
+*Φ*(⋅)
+
+is the cumulative distribution function (CDF) of the standard normal
+distribution.
+
+We assume the below relationship between `renewal` and the `betas`.
+
+{% highlight ruby linenos %}
+
+    beta0 <- 0.6
+    beta1 <- 0.9
+    beta2 <- 0.6
+    beta3 <- 10
+    beta4 <- -0.01
+    beta5 <- -0.2
+
+{% endhighlight %}
+
+Then we compute the probablities of renewal based on the standard normal
+distribution.
+
+{% highlight ruby linenos %}
+
+    prob_simul <- pnorm(beta0 + beta1*female + beta2*fatburning + beta3*musclebuilding + beta4*digital_content + beta5*days_since)
+
+{% endhighlight %}
+
+Finally the actual renewal status is determined by the probability we
+computed above.
+
+{% highlight ruby linenos %}
+
+    renewal <- rbinom(N,1,prob_simul) 
+
+{% endhighlight %}
+
+Until this step we completed simulating our data. Usually this data is
+already available and the actual modeling procedure starts from now.
+
+Prepare data for Stan
+---------------------
+
+### Primer on Bayesian Inference
+
+Applying the theory of [Bayesian
+Inference](https://en.wikipedia.org/wiki/Bayesian_inference) to our
+current context, the posterior probability can be defined as,
+
+*P*(*β*|*Y*)∝*P*(*Y*|*β*)\**P*(*β*)
+ where
+*β*
+ is our coefficient vector and `Y` is the observed data. We will assume
+uniform prior on the
+*β*
+ as we do not know any information about them. So the posterior
+distribution boils down to,
+
+*P*(*β*|*Y*)∝*P*(*Y*|*β*)
+
+There for estimating
+*P*(*β*|*Y*)
+ is equivalent to estimating
+*P*(*Y*|*β*)
+. So we will model this quantity using Stan.
+
+We will use the popular `rstan` package for Bayesian modeling our data.
+[Stan](http://mc-stan.org/) is a popular programming language for
+statistical modeling. Using Stan we can simulate the samples of
+parameters from a complex distribution defined by the user. In this
+case, our models is defined by `betas` hence the output of Stan
+simulation will be the distribution of `betas`.
+
+We first create an X matrix that combines all the input variables,
+including a column corresponding to the intercept.
+
+{% highlight ruby linenos %}
+
+    X <- cbind(rep(1,N), # Intercept column
+               female,
+               fatburning,
+               musclebuilding,
+               digital_content,
+               days_since)
+
+    # assign column names
+    colnames(X) <- c("intercept",
+                     "female",
+                     "fotography",
+                     "sculpture",
+                     "digital_content",
+                     "months_since")
+    K<-dim(X)[2]
+
+{% endhighlight %}
+
+Code for Stan
+-------------
+
+Configuring the `rstan` for modeling the data.
+
+{% highlight ruby linenos %}
 
     require(rstan)
 
@@ -48,128 +212,12 @@ Congiguring the `rstan` for modeling the data.
     rstan_options(auto_write = TRUE)
     options(mc.cores = parallel::detectCores()-2)
 
-Simulating the Data
--------------------
-
-We will simulate a data set with 5000 customers drawn from a population
-of museum members. We will define various columns as below.
-
--   
-    *X*<sub>1</sub>
-     `gender` : Approximately 60% are females.
-
--   
-    *X*<sub>2</sub>
-     `fotography` : 50% expressed interest for fotography.
-
--   
-    *X*<sub>3</sub>
-     `sculpture` : 30% expressed interest for sculpture.
-
--   
-    *X*<sub>4</sub>
-     `digital_content` : The average number of digital contents consumed
-    by the members is 0.5 and the sample follows a poisson distribution.
-
--   
-    *X*<sub>5</sub>
-     `months_since` : The average length since last visit is 5 months
-    and the sample follows a poisson distribution.
-
-<!-- -->
-
-    N <- 5000
-    # we assume 5000 members
-
-    female <- rbinom(N,1,0.6) 
-    # simulate 60% of female
-
-    fotography <- rbinom(N,1,0.5) 
-    # simulate 50% of customers who expressed interest for fotography
-
-    sculpture <- rbinom(N,1,0.3) 
-    # simulate 30% of customers who expressed interest for sculpture
-
-    digital_content <- rpois(N,0.5) 
-    # simulate digital content
-
-    months_since <- rpois(N,5) 
-    # simulate months since last visit, with a max of 12
-    months_since[months_since>12] <- 12
-
-Simulating renewal behavior and prepare the data
-------------------------------------------------
-
-The next step is to simulate the renewal behaviour. Let denote that `Y`
-(`renewal`) equals 1 if the member decides to renew, 0 otherwise.
-
-We assume the following probit model for Y given X. (This can be any
-abstract relationship. We are assuming this for simplicity.)
-
-*P*(*Y* = 1|*X*<sub>1</sub>, *X*<sub>2</sub>, *X*<sub>3</sub>, *X*<sub>4</sub>, *X*<sub>5</sub>)=*Φ*(*β*<sub>0</sub> + *β*<sub>1</sub>*X*<sub>1</sub> + *β*<sub>2</sub>*X*<sub>2</sub> + *β*<sub>3</sub>*X*<sub>3</sub> + *β*<sub>4</sub>*X*<sub>4</sub> + *β*<sub>5</sub>*X*<sub>5</sub>)
- where
-
-*Φ*(⋅)
-
-is the cumulative distribution function (CDF) of the standard normal
-distribution.
-
-We assume the below relationship between `renewal` and the `betas`.
-
-    beta0 <- 0.6
-    beta1 <- 0.9
-    beta2 <- 0.6
-    beta3 <- 10
-    beta4 <- -0.01
-    beta5 <- -0.2
-
-Then we compute the probablities of renewal based on the standard normal
-distribution.
-
-    prob_simul <- pnorm(beta0 + beta1*female + beta2*fotography + beta3*sculpture + beta4*digital_content + beta5*months_since)
-
-Finally the actual renewal status is determined by the probability we
-computed above.
-
-    renewal <- rbinom(N,1,prob_simul) 
-
-Until this step we completed simulating our data. Usually this data is
-already available and the actual modeling procedure starts from now.
-
-Prepare data for Stan
----------------------
-
-We will use the popular `rstan` package for Bayesian modeling our data.
-[Stan](http://mc-stan.org/) is a popular programming language for
-statistical modeling. Using Stan we can simulate the samples of
-parameters from a complex distribution defined by the user. In this
-case, our models is defined by `betas` hence the output of Stan
-simulation will be the distribution of `betas`.
-
-We first create an X matrix that combines all the input variables,
-including a column corresponding to the intercept.
-
-    X <- cbind(rep(1,N), # Intercept column
-               female,
-               fotography,
-               sculpture,
-               digital_content,
-               months_since)
-
-    # assign column names
-    colnames(X) <- c("intercept",
-                     "female",
-                     "fotography",
-                     "sculpture",
-                     "digital_content",
-                     "months_since")
-    K<-dim(X)[2]
-
-Code for Stan
--------------
+{% endhighlight %}
 
 Stan uses a specific modeling syntax. It requires the specification of
 the types of data and parameters, in addition to model statements.
+
+{% highlight ruby linenos %}
 
     probit <- '
     data{
@@ -190,17 +238,25 @@ the types of data and parameters, in addition to model statements.
     }
     '
 
+{% endhighlight %}
+
 Run STAN
 --------
 
 The initialization step of stan may take a little while but the running
 time should be just a couple of minutes.
 
+{% highlight ruby linenos %}
+
+{% endhighlight %}
+
 SUMMARY of results
 ------------------
 
 In the summary of output, the posterior distribution for each model
 coefficient is summaried using its percentiles.
+
+{% highlight ruby linenos %}
 
     print(fit)
 
@@ -232,66 +288,24 @@ coefficient is summaried using its percentiles.
 
     fitlist <- extract(fit)
 
+{% endhighlight %}
+
 ### Convergence
 
 Convergence plots show whether the draws from posterior distributions
 are well mixed together.
 
-    par(mfrow=c(2,3))
-    plot(fitlist$beta[,1],type="l",xlab="",ylab="Intercept")
-    plot(fitlist$beta[,2],type="l",xlab="",ylab="Gender Coefficient")
-    plot(fitlist$beta[,3],type="l",xlab="",ylab="Fotography Coefficient")
-    plot(fitlist$beta[,4],type="l",xlab="",ylab="Sculpture Coefficient")
-    plot(fitlist$beta[,5],type="l",xlab="",ylab="Digital content Coefficient")
-    plot(fitlist$beta[,6],type="l",xlab="",ylab="Months since login")
-
+{% highlight ruby linenos %}
 ![](2017-02-21-Bayesian-Modeling_files/figure-markdown_strict/unnamed-chunk-10-1.png)
+{% endhighlight %}
 
 ### Histograms of posterior distributions
 
 Posterior distributions of model coefficients.
 
-    par(mfrow=c(2,3))  
-    par(bg="white", fg="black", 
-        col.lab="black", col.axis="black", 
-        col.main="black", lwd=1)
-    #Gender
-    param <- fitlist$beta[,2]
-    min <- min(0,min(param))
-    max <- max(0,max(param))
-    hist(param,breaks=seq(min-0.05,max+0.05,0.05),main="Female",xlab="", ylab="",yaxt='n')
-    axis(1, lab=T , lwd=2)
-    abline(v=beta1, col=2)
-    #PHOTO
-    param <- fitlist$beta[,3]
-    min <- min(0,min(param))
-    max <- max(0,max(param))
-    hist(param,breaks=seq(min-0.04,max+0.04,0.04),main="Photography",xlab="", ylab="",yaxt='n')
-    axis(1, lab=T , lwd=2)
-    abline(v=beta2, col=2)
-    #SCULPTURE
-    param <- fitlist$beta[,4]
-    min <- min(0,min(param))
-    max <- max(0,max(param))
-    hist(param,breaks=seq(min-0.03,max+0.03,0.03),main="Sculpture",xlab="", ylab="",yaxt='n')
-    axis(1, lab=T , lwd=2)
-    abline(v=beta3, col=2)
-    #ONLINE CONTENT
-    param <- fitlist$beta[,5]
-    min <- min(0,min(param))
-    max <- max(0,max(param))
-    hist(param,breaks=seq(min-0.02,max+0.02,0.02),main="Downloads",xlab="", ylab="",yaxt='n')
-    axis(1, lab=T , lwd=2)
-    abline(v=beta4, col=2)
-    #VISIT
-    param <- fitlist$beta[,6]
-    min <- min(0,min(param))
-    max <- max(0,max(param))
-    hist(param,breaks=seq(min-0.01,max+0.01,0.01),main="Months since visit",xlab="", ylab="",yaxt='n')
-    axis(1, lab=T , lwd=2)
-    abline(v=beta5, col=2)
-
+{% highlight ruby linenos %}
 ![](2017-02-21-Bayesian-Modeling_files/figure-markdown_strict/unnamed-chunk-11-1.png)
+{% endhighlight %}
 
 Next Steps
 ----------
