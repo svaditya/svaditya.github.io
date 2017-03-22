@@ -18,6 +18,8 @@ categories: ['Python', 'R']
 
 #Others
 markdown: kramdown
+kramdown:
+  input: GFM
 
 # Disqus Comments
 disqus:
@@ -28,3 +30,7 @@ disqus:
 encoding: UTF-8
 
 permalink: /blog/:year/:month/:day/:title
+
+highlighter: rouge
+
+line_numbers: true
