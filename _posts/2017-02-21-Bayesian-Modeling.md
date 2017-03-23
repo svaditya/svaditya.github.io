@@ -58,7 +58,7 @@ of gym members. We will define various columns as below.
      `days_since` : The average length since last visit is 3 days and
     the sample follows a poisson distribution.
 
-{% highlight r linenos %}
+```r
 
     N <- 500
     # we assume 500 members
@@ -78,8 +78,7 @@ of gym members. We will define various columns as below.
     days_since <- rpois(N,3) 
     # simulate months since last visit, with a max of 30
     days_since[days_since>30] <- 30
-
-{% endhighlight %}
+```
 
 Simulating renewal behavior
 ---------------------------
@@ -91,7 +90,8 @@ We assume the following probit model for Y given X. (This can be any
 abstract relationship. We are assuming this for simplicity.)
 
 *P*(*Y* = 1|*X*<sub>1</sub>, *X*<sub>2</sub>, *X*<sub>3</sub>, *X*<sub>4</sub>, *X*<sub>5</sub>)=*Φ*(*β*<sub>0</sub> + *β*<sub>1</sub>*X*<sub>1</sub> + *β*<sub>2</sub>*X*<sub>2</sub> + *β*<sub>3</sub>*X*<sub>3</sub> + *β*<sub>4</sub>*X*<sub>4</sub> + *β*<sub>5</sub>*X*<sub>5</sub>)
- where
+ 
+where
 
 *Φ*(⋅)
 
@@ -100,7 +100,7 @@ distribution.
 
 We assume the below relationship between `renewal` and the `betas`.
 
-{% highlight r linenos %}
+```r
 
     beta0 <- 0.6
     beta1 <- 0.9
@@ -109,25 +109,25 @@ We assume the below relationship between `renewal` and the `betas`.
     beta4 <- -0.01
     beta5 <- -0.2
 
-{% endhighlight %}
+```
 
 Then we compute the probablities of renewal based on the standard normal
 distribution.
 
-{% highlight r linenos %}
+```r
 
     prob_simul <- pnorm(beta0 + beta1*female + beta2*fatburning + beta3*musclebuilding + beta4*digital_content + beta5*days_since)
 
-{% endhighlight %}
+```
 
 Finally the actual renewal status is determined by the probability we
 computed above.
 
-{% highlight r linenos %}
+```r
 
     renewal <- rbinom(N,1,prob_simul) 
 
-{% endhighlight %}
+```
 
 Until this step we completed simulating our data. Usually this data is
 already available and the actual modeling procedure starts from now.
@@ -141,7 +141,7 @@ Applying the theory of [Bayesian
 Inference](https://en.wikipedia.org/wiki/Bayesian_inference) to our
 current context, the posterior probability can be defined as,
 
-*P*(*β*|*Y*)∝*P*(*Y*|*β*)\**P*(*β*)
+*P*(*β*|*Y*) ∝ *P*(*Y*|*β*)\**P*(*β*)
  where
 *β*
  is our coefficient vector and `Y` is the observed data. We will assume
@@ -168,7 +168,7 @@ simulation will be the distribution of `betas`.
 We first create an X matrix that combines all the input variables,
 including a column corresponding to the intercept.
 
-{% highlight r linenos %}
+```r
 
     X <- cbind(rep(1,N), # Intercept column
                female,
@@ -186,14 +186,14 @@ including a column corresponding to the intercept.
                      "months_since")
     K<-dim(X)[2]
 
-{% endhighlight %}
+```
 
 Code for Stan
 -------------
 
 Configuring the `rstan` for modeling the data.
 
-{% highlight r linenos %}
+```r
 
     require(rstan)
 
@@ -212,12 +212,12 @@ Configuring the `rstan` for modeling the data.
     rstan_options(auto_write = TRUE)
     options(mc.cores = parallel::detectCores()-2)
 
-{% endhighlight %}
+```
 
 Stan uses a specific modeling syntax. It requires the specification of
 the types of data and parameters, in addition to model statements.
 
-{% highlight r linenos %}
+```r
 
     probit <- '
     data{
@@ -238,7 +238,7 @@ the types of data and parameters, in addition to model statements.
     }
     '
 
-{% endhighlight %}
+```
 
 Run STAN
 --------
@@ -246,17 +246,13 @@ Run STAN
 The initialization step of stan may take a little while but the running
 time should be just a couple of minutes.
 
-{% highlight r linenos %}
-
-{% endhighlight %}
 
 SUMMARY of results
 ------------------
 
 In the summary of output, the posterior distribution for each model
 coefficient is summaried using its percentiles.
-
-{% highlight r linenos %}
+```r
 
     print(fit)
 
@@ -288,24 +284,24 @@ coefficient is summaried using its percentiles.
 
     fitlist <- extract(fit)
 
-{% endhighlight %}
+```
 
 ### Convergence
 
 Convergence plots show whether the draws from posterior distributions
 are well mixed together.
 
-{% highlight r linenos %}
+```r
 ![](2017-02-21-Bayesian-Modeling_files/figure-markdown_strict/unnamed-chunk-10-1.png)
-{% endhighlight %}
+```
 
 ### Histograms of posterior distributions
 
 Posterior distributions of model coefficients.
 
-{% highlight r linenos %}
+```r
 ![](2017-02-21-Bayesian-Modeling_files/figure-markdown_strict/unnamed-chunk-11-1.png)
-{% endhighlight %}
+```
 
 Next Steps
 ----------
