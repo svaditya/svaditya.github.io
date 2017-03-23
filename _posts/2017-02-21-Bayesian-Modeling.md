@@ -1,4 +1,4 @@
----
+﻿---
 title: "Bayesian Modeling of Customer Behaviour"
 author: "__Aditya__"
 date:   "21-Feb-2017"
@@ -58,7 +58,7 @@ of gym members. We will define various columns as below.
      `days_since` : The average length since last visit is 3 days and
     the sample follows a poisson distribution.
 
-{% highlight ruby linenos %}
+{% highlight r linenos %}
 
     N <- 500
     # we assume 500 members
@@ -100,7 +100,7 @@ distribution.
 
 We assume the below relationship between `renewal` and the `betas`.
 
-{% highlight ruby linenos %}
+{% highlight r linenos %}
 
     beta0 <- 0.6
     beta1 <- 0.9
@@ -114,7 +114,7 @@ We assume the below relationship between `renewal` and the `betas`.
 Then we compute the probablities of renewal based on the standard normal
 distribution.
 
-{% highlight ruby linenos %}
+{% highlight r linenos %}
 
     prob_simul <- pnorm(beta0 + beta1*female + beta2*fatburning + beta3*musclebuilding + beta4*digital_content + beta5*days_since)
 
@@ -123,7 +123,7 @@ distribution.
 Finally the actual renewal status is determined by the probability we
 computed above.
 
-{% highlight ruby linenos %}
+{% highlight r linenos %}
 
     renewal <- rbinom(N,1,prob_simul) 
 
@@ -168,7 +168,7 @@ simulation will be the distribution of `betas`.
 We first create an X matrix that combines all the input variables,
 including a column corresponding to the intercept.
 
-{% highlight ruby linenos %}
+{% highlight r linenos %}
 
     X <- cbind(rep(1,N), # Intercept column
                female,
@@ -193,7 +193,7 @@ Code for Stan
 
 Configuring the `rstan` for modeling the data.
 
-{% highlight ruby linenos %}
+{% highlight r linenos %}
 
     require(rstan)
 
@@ -217,7 +217,7 @@ Configuring the `rstan` for modeling the data.
 Stan uses a specific modeling syntax. It requires the specification of
 the types of data and parameters, in addition to model statements.
 
-{% highlight ruby linenos %}
+{% highlight r linenos %}
 
     probit <- '
     data{
@@ -246,7 +246,7 @@ Run STAN
 The initialization step of stan may take a little while but the running
 time should be just a couple of minutes.
 
-{% highlight ruby linenos %}
+{% highlight r linenos %}
 
 {% endhighlight %}
 
@@ -256,7 +256,7 @@ SUMMARY of results
 In the summary of output, the posterior distribution for each model
 coefficient is summaried using its percentiles.
 
-{% highlight ruby linenos %}
+{% highlight r linenos %}
 
     print(fit)
 
@@ -295,7 +295,7 @@ coefficient is summaried using its percentiles.
 Convergence plots show whether the draws from posterior distributions
 are well mixed together.
 
-{% highlight ruby linenos %}
+{% highlight r linenos %}
 ![](2017-02-21-Bayesian-Modeling_files/figure-markdown_strict/unnamed-chunk-10-1.png)
 {% endhighlight %}
 
@@ -303,7 +303,7 @@ are well mixed together.
 
 Posterior distributions of model coefficients.
 
-{% highlight ruby linenos %}
+{% highlight r linenos %}
 ![](2017-02-21-Bayesian-Modeling_files/figure-markdown_strict/unnamed-chunk-11-1.png)
 {% endhighlight %}
 
