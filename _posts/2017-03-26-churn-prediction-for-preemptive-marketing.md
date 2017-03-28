@@ -59,6 +59,7 @@ the powerful hardware of the SQL Server rather than using the resources
 of the local machine. So we will create 2 compute contexts and switch
 between them as necessary.
 
+    ```r
     # Define the connection string to connect to the SQL Server. Replace ??? with your info
     connection_string <- "Driver=SQL Server;
                             Server=??? ;
@@ -83,6 +84,7 @@ between them as necessary.
 
     # Set the Compute Context to Local
     rxSetComputeContext(local)
+    ```
 
 Exploring the training data
 ---------------------------
