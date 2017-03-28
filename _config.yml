@@ -18,7 +18,7 @@ categories: ['Python', 'R']
 
 #Others
 markdown: kramdown
-highlighter: rouge
+highlighter: pygments
 
 kramdown:
   # use Github Flavored Markdown
