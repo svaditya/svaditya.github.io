@@ -115,7 +115,7 @@ distribution and is the output of the Bayesian Estimation.
     rug(post_rate, col = "gray70")
     text(x = 0.1, y = 260, "Mean = 0.0884")
 
-![](/images/2017-05-16-bayesian-estimation-in-action/unnamed-chunk-2-1.png)
+![](images/2017-05-16-bayesian-estimation-in-action/unnamed-chunk-2-1.png)
 
 Once we have the posterior distribution of the success rate we can
 derive lot of value from it. Like the mean and 95% ([Credible
@@ -170,7 +170,7 @@ conversion rate. We simulate the data using the binomial function.
     abline(v = mean(conversions), lty = 2, col = "red")
     rug(conversions, col = "gray70")
 
-![](/images/2017-05-16-bayesian-estimation-in-action/unnamed-chunk-6-1.png)
+![](images/2017-05-16-bayesian-estimation-in-action/unnamed-chunk-6-1.png)
 
     quantile(conversions, c(0.025, 0.975))
 
@@ -264,14 +264,14 @@ stuck.
 
     traceplot(stan_samples)
 
-![](/images/2017-05-16-bayesian-estimation-in-action/unnamed-chunk-11-1.png)
+![](images/2017-05-16-bayesian-estimation-in-action/unnamed-chunk-11-1.png)
 
 Below we can see the success rate represented by a dot and the 95% CI
 around it.
 
     plot(stan_samples) + annotate("text", x= 0.09, y = 1.1, label = "Mean = 0.0882") + labs(title = "Posterior Success Rate and 95% CI")
 
-![](/images/2017-05-16-bayesian-estimation-in-action/unnamed-chunk-12-1.png)
+![](images/2017-05-16-bayesian-estimation-in-action/unnamed-chunk-12-1.png)
 
 Conclusion
 ----------
