@@ -1,4 +1,4 @@
----
+﻿---
 title: "Bayesian Estimation in Action"
 date: "16-May-2017"
 layout: post
@@ -9,39 +9,50 @@ output:
 ---
 
 Hello All, In this post I will demonstrate a practical use case of
-applying Bayesian Estimation in a typical business scenario. Let's
-consider a situation where one needs to decide whether to broad-base a
-certain Ad or an emailer to the target segment. We will also consider
-that by showing the Ad/emailer to a test sample of 100 customers there
-was a total conversion of 8 customers.
+applying Bayesian Estimation in a typical business scenario. Quite often
+businesses are required to take decisions based on some analysis of
+observed data. We will see how Bayesian Estimation becomes a very
+important tool to help us quantify the uncertainty in the data and help
+us take more informed decisions.
 
-Now the business is faced with the following questions.
+Problem Definition
+------------------
 
-*1. What would be the expected conversion if the ad/emailer is shown to
-the entire segment?*
+Let's consider a situation where one needs to decide whether to
+broad-base a certain Ad or an emailer to the target segment. We will
+also consider that by showing the Ad/emailer to a test sample of 100
+customers resulted in a total conversion of 8 customers.
 
-*2. Suppose, there is a proven channel which guarantees a conversion
+Now the team is faced with the following questions.
+
+**1. What would be the expected conversion if the ad/emailer is shown to
+the entire segment?**
+
+**2. Suppose, there is a proven channel which guarantees a conversion
 rate of 3%. What is the probability that the conversion rate of this new
-ad/emailer is greater than 3%?*
+ad/emailer is greater than 3%?**
 
-*3. What will be the total number of conversions if the ad/emailer is
-shown to 200K consumers?*
+**3. What will be the total number of conversions if the ad/emailer is
+shown to 200K consumers?**
 
 From the back of the envelope calculation, we can say that the expected
 conversion rate is 8% (8/100). But what is the certainity of this
-estimate? This is where Bayesian Estimation help the businesses to
-identify the conversion and quantify the uncertainty in the estimate. We
-can use various computation method for Bayesian Estimation. In this post
-I will show two different methods. Approxmiate Bayesian Computation
+estimate? This is where Bayesian Estimation helps us to identify the
+conversion estimate and quantify the uncertainty in the estimate. We can
+use various computation methods for Bayesian Estimation. In this post I
+will show two different methods. Approxmiate Bayesian Computation
 ([ABC](https://en.wikipedia.org/wiki/Approximate_Bayesian_computation))
 and [MCMC](https://en.wikipedia.org/wiki/Markov_chain_Monte_Carlo). For
-the later method I will use the
+the latter method I will use the
 [Stan](https://en.wikipedia.org/wiki/Stan_(software)) (more later).
 
-So let's get started with the first business problem.
+So let's get started with the first problem.
 
-*1. What would be the expected conversion if the ad/emailer is shown to
-the entire population?*
+Bayesian Estimation using ABC
+-----------------------------
+
+**1. What would be the expected conversion if the ad/emailer is shown to
+the entire population?**
 
 To solve this question, we need to develop a model based on the observed
 data. The Bayesian modeling consists of 3 components:
@@ -58,19 +69,20 @@ which can stochastically generate data using a set of parameters. The
 observed data is an instance of the generative model.
 
 Let's say there is an underlying success rate parameter *θ* which is an
-unknown and defined as the probability of conversion. We are trying to
-ultimately find out the distribution of this success parameter. To begin
-with we assume that the *θ* is uniformly distributed as we do not know
-any prior information of *θ*. Often times this is called uninformative
-prior as a uniform distibution gives equal credibility to all values
-between 0 and 1.
+unknown and defined as the probability of conversion. Each customer
+decides to conver or not convert at this rate. We are trying to
+ultimately find out the distribution of this success rate parameter. To
+begin with, we assume that *θ* is uniformly distributed as we do not
+know any prior information of *θ*. Often times this is called
+uninformative prior as a uniform distibution gives equal credibility to
+all values between 0 and 1.
 
 We randomly sample a value of *θ* from the uniform distribution and use
 this value as input to the generative model. The generative model
 outputs the total conversion (number of successes) given the success
-parameter and number of trials (100 in this case). The generative model
-can be a binomial distribution for example. We repeat this experience
-say 100000 times.
+rate parameter and number of trials (100 in this case). The generative
+model can be a binomial distribution for example. We repeat this
+experience say 100000 times.
 
 Below is the code for this simulation.
 
@@ -88,7 +100,7 @@ Below is the code for this simulation.
     # Pass the success rate to generative model
     conversions <- sapply(prior_rate, function(x) genmodel(x))
 
-Now is the interesting part, out of the 100000 experiement we will
+Now comes the interesting part, out of the 100000 experiements we will
 filter out those experiments which resulted in our actual data i.e. 8
 conversions out of 100 customers. The distribution of the sucess rates
 which resulted in the actual data is defined as the posterior
@@ -98,9 +110,12 @@ distribution and is the output of the Bayesian Estimation.
     post_rate <- prior_rate[conversions == 8]
 
     # Distribution of the resulting success rates
-    hist(post_rate)
+    hist(post_rate, col = "lightgreen")
+    abline(v = mean(post_rate), lty = 2, col = "red")
+    rug(post_rate, col = "gray70")
+    text(x = 0.1, y = 260, "Mean = 0.0884")
 
-![](2017-05-16-bayesian-estimation-in-action_files/figure-markdown_strict/unnamed-chunk-2-1.png)
+![](/images/2017-05-16-bayesian-estimation-in-action/unnamed-chunk-2-1.png)
 
 Once we have the posterior distribution of the success rate we can
 derive lot of value from it. Like the mean and 95% ([Credible
@@ -124,16 +139,16 @@ Below is the 95% CI
     ##       2.5%      97.5% 
     ## 0.04318395 0.14820535
 
-In other words **we can be 95% confident that the sucess rate lies
+In other words **we can be 95% confident that the conversion rate lies
 between 4.34% and 15.22%.**
 
-Note that we considered an uniform distribution for the prior as we have
-not clue about its previous distribution. The prior can have any
+Note that we considered an uniform distribution for the prior as we had
+no clue about its previous distribution. The prior can have any
 distribution based on the previous knowledge about the parameters.
 
-*2. Suppose, there is a proven channel which guarantees a conversion
+**2. Suppose, there is a proven channel which guarantees a conversion
 rate of 3%. What is the probability that the conversion rate of this new
-ad/emailer is greater than 3%?*
+ad/emailer is greater than 3%?**
 
 This can be easily obtained from the probability distribution.
 
@@ -141,33 +156,35 @@ This can be easily obtained from the probability distribution.
 
     ## [1] 0.9957761
 
-**We can be 99.7% confident that the Ad/emailer will have a total
+**We can be 99.8% confident that the Ad/emailer will have a total
 conversion greater than 3%.**
 
-*3. What will be the total number of conversions if the ad/emailer is
-shown to 200K consumers?*
+**3. What will be the total number of conversions if the ad/emailer is
+shown to 200K consumers?**
 
 Again, this is can be done easily as we now have the distribution of the
 conversion rate. We simulate the data using the binomial function.
 
     conversions <- rbinom(n = length(post_rate), size = 200000, prob = post_rate)
-    hist(conversions)
+    hist(conversions, col = "lightgreen")
+    abline(v = mean(conversions), lty = 2, col = "red")
+    rug(conversions, col = "gray70")
 
-![](2017-05-16-bayesian-estimation-in-action_files/figure-markdown_strict/unnamed-chunk-6-1.png)
+![](/images/2017-05-16-bayesian-estimation-in-action/unnamed-chunk-6-1.png)
 
     quantile(conversions, c(0.025, 0.975))
 
     ##     2.5%    97.5% 
     ##  8635.95 29570.85
 
-**With 95% we can say that that total coversion lies between 9000 to
+**With 95% we can say that that total conversions lies between 9000 to
 30000 customers.**
 
-I hope by now you appreciate how simple Bayesian Estimation can serve
-business insights. The approach of simulation we followed above is
+I hope by now you can appreciate how simple Bayesian Estimation can
+serve business insights. The approach of simulation we followed above is
 called Approximate Bayesian Estimation. This method is very intuitive
 and easy to simulate. But this approach falls flat when the model
-complexity increases as it requires huge computation resources.
+complexity increases as it requires huge computational resources.
 Therefore the need to move towards effective methods like MCMC which
 adapt certain computational shortcuts while doing simulations.
 
@@ -183,9 +200,9 @@ generative model and priors.
 In R, we prepare a string with Stan syntax. Inside the string, we
 declare the data, parameters and define the model. Our data is a
 binomial experiment with `n` trials and `s` successes. We have only one
-parameter (the underlying success rate). Finally, inside the model block
-we define random draws from a uniform distribution for the success rate
-and this rate is used to perform a binomial trial to generate the data.
+parameter (the underlying success rate). Inside the model block we
+define random draws from a uniform distribution for the success rate and
+this rate is used to perform a binomial trial to generate the data.
 
     library(rstan)
 
@@ -209,21 +226,14 @@ and this rate is used to perform a binomial trial to generate the data.
     }
     "
 
-After defining the model string, we can start the simulation process
-after defining the observed data.
+After defining the model string, we define the observed data and start
+the simulation process.
 
-The object `stan_samples` consists of all the posterior samples drawn
-from the parameter space. In this case ot consists of multiple values of
-*θ* which resulted on the observed data.
+The object `stan_samples` consists of samples from posterior
+distribution of the parameter space. In this case it consists of
+multiple values of *θ* which resulted in the observed data.
 
 Lets take a look at the `stan-samples` object.
-
-**We can observe that the mean or estimated success rate is 9% which is
-very similar to what we obtained using the ABC method. Also, a total of
-4 MCMC chains have been constructed to arrive at this value.**
-
-**The 95% Credible Interval is 4% to 15% which again matches with our
-earlier simulation.**
 
     stan_samples
 
@@ -240,27 +250,36 @@ earlier simulation.**
     ## and Rhat is the potential scale reduction factor on split chains (at 
     ## convergence, Rhat=1).
 
-The below `traceplot` function plots the movement of the success
+**We can observe that the mean or estimated success rate is 9% which is
+very similar to what we obtained using the ABC method. Also, a total of
+4 MCMC chains have been constructed to arrive at this value.**
+
+**The 95% Credible Interval is 4% to 15% which again matches with our
+earlier simulation.**
+
+The below `traceplot` function plots the movement of the success rate
 parameter during the MCMC process. This plot can be used as one of many
-sanity checks to validate if the simulation was stable and the parameter
-converged to the mean value.
+sanity checks to validate if the simulation was stable and did not get
+stuck.
 
     traceplot(stan_samples)
 
-![](2017-05-16-bayesian-estimation-in-action_files/figure-markdown_strict/unnamed-chunk-11-1.png)
+![](/images/2017-05-16-bayesian-estimation-in-action/unnamed-chunk-11-1.png)
 
-Below we can see the suvvess rate represented by a dot and the 95% CI
+Below we can see the success rate represented by a dot and the 95% CI
 around it.
 
-    plot(stan_samples)
+    plot(stan_samples) + annotate("text", x= 0.09, y = 1.1, label = "Mean = 0.0882") + labs(title = "Posterior Success Rate and 95% CI")
 
-![](2017-05-16-bayesian-estimation-in-action_files/figure-markdown_strict/unnamed-chunk-12-1.png)
+![](/images/2017-05-16-bayesian-estimation-in-action/unnamed-chunk-12-1.png)
 
 Conclusion
 ----------
 
 In this post we have see how Bayesian Estimation can be applied to real
-world problems for decision making. But we have not even scratched the
-surface of what can possibly be done using Bayesian Estimation. In the
-following post I will show how we can use Bayesian methods for A/B
-testing and how to build more complex models.
+world problems for decision making. Bayesian Estimation is a very
+effective tool to quantitatively describe uncertainity in the data. But
+we have not even scratched the surface of what can possibly be done
+using Bayesian Estimation. In the following posts I will show how we can
+use Bayesian methods for A/B testing, build more complex models and use
+predict outcomes.
