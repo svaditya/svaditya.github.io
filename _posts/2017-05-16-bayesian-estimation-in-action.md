@@ -129,7 +129,7 @@ distribution.
 
     ## [1] 0.08918136
 
-**The expected conversion rate is 8.84% which is slightly different from
+**The expected conversion rate is 8.92% which is slightly different from
 our back of the envelope estimate.**
 
 Below is the 95% CI
