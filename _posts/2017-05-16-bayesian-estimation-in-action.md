@@ -104,8 +104,9 @@ distribution and is the output of the Bayesian Estimation.
 ![](/images/2017-05-16-bayesian-estimation-in-action/unnamed-chunk-2-1.png)
 
 Once we have the posterior distribution of the success rate we can
-derive lot of value from it. Like the mean and 95% credible interval of
-the success rate and also answer our questions.
+derive lot of value from it. Like the mean and 95% ([Credible
+Interval](https://en.wikipedia.org/wiki/Credible_interval)) of the
+success rate and also answer our questions.
 
 The expected value of the coversion is the mean of the posterior
 distribution.
@@ -117,8 +118,7 @@ distribution.
 **The expected conversion rate is 8.84% which is slightly different from
 our back of the envelope estimate.**
 
-Below is the 95% CI ([Credible
-Interval](https://en.wikipedia.org/wiki/Credible_interval)).
+Below is the 95% CI
 
     quantile(post_rate, c(0.025, 0.975))
 
