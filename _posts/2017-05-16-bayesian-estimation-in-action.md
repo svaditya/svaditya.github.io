@@ -1,6 +1,5 @@
 ﻿---
 title: "Bayesian Estimation in Action"
-author: "__Aditya__"
 date:   "16-May-2017"
 layout: post
 category: R
