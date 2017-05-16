@@ -5,7 +5,7 @@ layout: post
 category: R
 output:
   md_document:
-    preserve_yaml: true
+    preserve_yaml: false
 ---
 
 Hello All, In this post I will demonstrate a practical use case of
